@@ -1332,6 +1332,11 @@ end)
 RegisterNetEvent('esx:showNotification')
 AddEventHandler('esx:showNotification', function(msg)
 	ESX.ShowNotification(msg)
+	if Config.EnableHud then
+		ESX.UI.HUD.UpdateElement('account_real_money', {
+			money = ESX.Math.GroupDigits(ESX.PlayerData.money)
+		})
+	end
 end)
 
 RegisterNetEvent('esx:showAdvancedNotification')

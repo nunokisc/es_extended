@@ -25,6 +25,18 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	if Config.EnableHud then
 
 		for i=1, #xPlayer.accounts, 1 do
+
+			if i == 1 then
+				local normalMoney = '<div><img src="img/accounts/bank.png"/>&nbsp;{{money}}</div>'
+				ESX.UI.HUD.RegisterElement('account_real_money', #xPlayer.accounts, 0, normalMoney, {
+					money = 0
+				})
+
+				ESX.UI.HUD.UpdateElement('account_real_money', {
+					money = ESX.Math.GroupDigits(ESX.PlayerData.money)
+				})
+			end
+
 			local accountTpl = '<div><img src="img/accounts/' .. xPlayer.accounts[i].name .. '.png"/>&nbsp;{{money}}</div>'
 
 			ESX.UI.HUD.RegisterElement('account_' .. xPlayer.accounts[i].name, i-1, 0, accountTpl, {
@@ -133,6 +145,9 @@ AddEventHandler('esx:setAccountMoney', function(account)
 	if Config.EnableHud then
 		ESX.UI.HUD.UpdateElement('account_' .. account.name, {
 			money = ESX.Math.GroupDigits(account.money)
+		})
+		ESX.UI.HUD.UpdateElement('account_real_money', {
+			money = ESX.Math.GroupDigits(ESX.PlayerData.money)
 		})
 	end
 end)
